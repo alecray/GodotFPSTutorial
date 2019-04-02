@@ -6,6 +6,13 @@ const MAX_SPEED = 20
 const JUMP_SPEED = 18
 const ACCEL = 4.5
 
+# Sprinting
+const MAX_SPRINT_SPEED = 30
+const SPRINT_ACCEL = 18
+var is_sprinting = false
+
+# Flashlight node
+var flashlight 
 
 var dir = Vector3()
 
@@ -20,6 +27,7 @@ var MOUSE_SENSITIVITY = 0.05
 func _ready():
 	camera = $Rotation_Helper/Camera
 	rotation_helper = $Rotation_Helper
+	flashlight = $Rotation_Helper/Flashlight # Get flashlight node & assign to variable	
 
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
@@ -49,23 +57,40 @@ func process_input(delta):
 
 	dir += -cam_xform.basis.z.normalized() * input_movement_vector.y
 	dir += cam_xform.basis.x.normalized() * input_movement_vector.x
-	# ----------------------------------
+	# --------------------------------------------------------------------
 
-	# ----------------------------------
+	# --------------------------------------------------------------------
 	# Jumping
 	if is_on_floor():
 		if Input.is_action_just_pressed("movement_jump"):
 			vel.y = JUMP_SPEED
-	# ----------------------------------
+	# --------------------------------------------------------------------
 
-	# ----------------------------------
+	# --------------------------------------------------------------------
 	# Capturing/Freeing the cursor
 	if Input.is_action_just_pressed("ui_cancel"):
 		if Input.get_mouse_mode() == Input.MOUSE_MODE_VISIBLE:
 			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 		else:
 			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-	# ----------------------------------
+	# --------------------------------------------------------------------
+	
+	# --------------------------------------------------------------------
+	# Sprinting
+	if Input.is_action_pressed("movement_sprint"):
+		is_sprinting = true
+	else: 
+		is_sprinting = false
+	# --------------------------------------------------------------------
+	
+	# --------------------------------------------------------------------
+	# Turning the flashlight on/off
+	if Input.is_action_just_pressed("flashlight"):
+		if flashlight.is_visible_in_tree():
+			flashlight.hide()
+		else:
+			flashlight.show()
+	# --------------------------------------------------------------------
 
 func process_movement(delta):
 	dir.y = 0
@@ -77,11 +102,17 @@ func process_movement(delta):
 	hvel.y = 0
 
 	var target = dir
-	target *= MAX_SPEED
+	if is_sprinting:
+		target *= MAX_SPRINT_SPEED
+	else:
+		target *= MAX_SPEED
 
 	var accel
 	if dir.dot(hvel) > 0:
-		accel = ACCEL
+		if is_sprinting:
+			accel = SPRINT_ACCEL
+		else:
+			accel = ACCEL
 	else:
 		accel = DEACCEL
 
