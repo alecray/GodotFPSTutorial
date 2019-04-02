@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=2]
+[gd_scene load_steps=36 format=2]
 
 [ext_resource path="res://Player.gd" type="Script" id=1]
 [ext_resource path="res://assets/Colors.material" type="Material" id=2]
@@ -7,8 +7,9 @@
 [ext_resource path="res://assets/GunMaterial.material" type="Material" id=5]
 [ext_resource path="res://assets/MuzzleFlash.material" type="Material" id=6]
 [ext_resource path="res://assets/Gun_Emission.material" type="Material" id=7]
-[ext_resource path="res://assets/32-32_white.png" type="Texture" id=8]
-[ext_resource path="res://assets/Titillium-Regular.otf" type="DynamicFontData" id=9]
+[ext_resource path="res://AnimationPlayer_Manager.gd" type="Script" id=8]
+[ext_resource path="res://assets/32-32_white.png" type="Texture" id=9]
+[ext_resource path="res://assets/Titillium-Regular.otf" type="DynamicFontData" id=10]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 1.2
@@ -3845,7 +3846,7 @@ anti_aliasing = false
 [sub_resource type="DynamicFont" id=25]
 size = 42
 use_filter = true
-font_data = ExtResource( 9 )
+font_data = ExtResource( 10 )
 
 [node name="Player" type="KinematicBody"]
 script = ExtResource( 1 )
@@ -3859,7 +3860,6 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.493176, 0 )
 shape = SubResource( 2 )
 
 [node name="Rotation_Helper" type="Spatial" parent="."]
-editor/display_folded = true
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11.239, 0 )
 
 [node name="Model" type="Spatial" parent="Rotation_Helper"]
@@ -4065,6 +4065,7 @@ anims/Rifle_fire = SubResource( 18 )
 anims/Rifle_idle = SubResource( 19 )
 anims/Rifle_reload = SubResource( 20 )
 anims/Rifle_unequip = SubResource( 21 )
+script = ExtResource( 8 )
 
 [node name="Camera" type="Camera" parent="Rotation_Helper"]
 transform = Transform( -1, 0, 3.25841e-007, 0, 1, 0, -3.25841e-007, 0, -1, 0, -0.307539, -0.0646362 )
@@ -4145,7 +4146,7 @@ margin_left = -2.5
 margin_top = 4.5
 margin_right = 2.5
 margin_bottom = 20.5
-texture = ExtResource( 8 )
+texture = ExtResource( 9 )
 expand = true
 
 [node name="Top_IMG" type="TextureRect" parent="HUD/Crosshair"]
@@ -4157,7 +4158,7 @@ margin_left = -2.5
 margin_top = -20.5
 margin_right = 2.5
 margin_bottom = -4.5
-texture = ExtResource( 8 )
+texture = ExtResource( 9 )
 expand = true
 
 [node name="Left_IMG" type="TextureRect" parent="HUD/Crosshair"]
@@ -4170,7 +4171,7 @@ margin_top = -2.5
 margin_right = 0.5
 margin_bottom = 12.5
 rect_rotation = 90.0
-texture = ExtResource( 8 )
+texture = ExtResource( 9 )
 expand = true
 
 [node name="Right_IMG" type="TextureRect" parent="HUD/Crosshair"]
@@ -4183,7 +4184,7 @@ margin_top = -2.5
 margin_right = 24.5
 margin_bottom = 12.5
 rect_rotation = 90.0
-texture = ExtResource( 8 )
+texture = ExtResource( 9 )
 expand = true
 
 [node name="Panel" type="Panel" parent="HUD"]
